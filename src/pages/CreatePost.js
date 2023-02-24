@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {addDoc, collection} from 'firebase/firestore';
 import { db, auth } from '../firebase';
 import { useNavigate } from 'react-router-dom';
@@ -16,11 +16,11 @@ const CreatePost = ({isAuth}) => {
     navigate("/");
   }
  
-  useEffect ((isAuth) => {
-    if (!isAuth) {
-      navigate("/login");
-    }
-  }, [navigate]);
+  // useEffect ((isAuth) => {
+  //   if (!isAuth) {
+  //     navigate("/login");
+  //   }
+  // }, [navigate]);
 
   return (
     <div className='createPostPage'>
