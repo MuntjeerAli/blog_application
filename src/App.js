@@ -29,7 +29,7 @@ const App = () => {
       setIsAuth(false)
       window.location.pathname = "/login";
     })
-  }
+  };
 
   return <Router>
     <nav>

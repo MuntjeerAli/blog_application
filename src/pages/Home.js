@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import {getDocs, collection, deleteDoc, doc} from 'firebase/firestore';
-import {auth, db} from '../firebase';
+import { collection, deleteDoc, getDocs, doc } from 'firebase/firestore';
+import { auth, db } from '../firebase';
 
-const Home = ({isAuth}) => {
-  const [postLists, setPostLists] = useState([]);
-  const postsCollectionRef = collection(db, "posts");
+function Home({isAuth}) {
+  const [postLists, setPostLists] = useState ([]);
+  const postsCollectionRef = collection(db, 'posts');
 
-  useEffect (() => {
+  useEffect(() => {
     const getPosts = async () => {
       const data = await getDocs(postsCollectionRef);
       setPostLists(data.docs.map((doc) => ({...doc.data(), id: doc.id})));
-    };
-
-    getPosts()
+    }
+    getPosts();
   });
 
-  const deletePost = async (id) => {
+  const deletPost = async (id) => {
     const postDoc = doc(db, "posts", id)
     await deleteDoc(postDoc)
-  }
+  };
+
   return (
     <div className='homePage'>
       {postLists.map((post) => {
@@ -27,17 +27,18 @@ const Home = ({isAuth}) => {
             <div className='title'>
               <h1>{post.title}</h1>
             </div>
-            <div className='deletePost'>
-              {isAuth && post.author.id === auth.currentUser.uid &&(
+            <div className='deletPost'>
+              {isAuth && post.author.id === auth.currentUser.uid && (
                 <button onClick={() => {
-                  deletePost(post.id);
+                  deletPost(post.id)
                 }}>&#128465;</button>
               )}
-              
             </div>
           </div>
-          <div className='postTextContainer'>{post.postText}</div>
-          <h3>{post.author.name}</h3>
+          <div className='postTextContainer'>
+            {post.postText}
+          </div>
+          <h3>@{post.author.name}</h3>
         </div>
       })}
     </div>
@@ -45,3 +46,4 @@ const Home = ({isAuth}) => {
 }
 
 export default Home
+
